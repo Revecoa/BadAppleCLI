@@ -11,9 +11,9 @@ This script is available at https://revecoa.skydinse.net/, so the easiest way to
 ```bash
 bash <(curl -sL https://revecoa.skydinse.net/badapple.sh)
 ```
-Or, if you want to use any options:
+Or directly via GitHub:
 ```bash
-bash <(curl -sL https://revecoa.skydinse.net/badapple.sh) --help
+bash <(curl -sL https://raw.githubusercontent.com/Revecoa/BadAppleCLI/refs/heads/main/run.sh)
 ```
 
 ---
