@@ -55,7 +55,7 @@ mkdir -p /path/to/your/public/badapple && cd "$_"
 
 2. To clone the repository to this folder, follow the steps from [#Manual Usage](#manual-usage).
 
-3. After cloning, move the repository contents to your intended colder:
+3. After cloning, move the repository contents to your intended folder:
 ```bash
 cd /path/to/your/public/badapple
 mv BadAppleCLI/* ./
