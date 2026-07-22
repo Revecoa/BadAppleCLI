@@ -11,7 +11,7 @@
 # Usage: bash <(curl -sL https://revecoa.skydinse.net/badapple.sh) [options]
 
 
-URL_RESOURCES="https://example.org/badapple"
+URL_RESOURCES="https://revecoa.skydinse.net/badapple.sh"
 
 
 # Usage and arguments
