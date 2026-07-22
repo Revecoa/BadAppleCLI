@@ -57,6 +57,7 @@ mkdir -p /path/to/your/public/badapple && cd "$_"
 
 3. After cloning, move the repository contents to your intended colder:
 ```bash
+cd /path/to/your/public/badapple
 mv BadAppleCLI/* ./
 rm -r BadAppleCLI/
 ```
