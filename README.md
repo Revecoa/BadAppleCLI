@@ -59,7 +59,7 @@ mkdir -p /path/to/your/public/badapple && cd "$_"
 ```bash
 cd /path/to/your/public/badapple
 mv BadAppleCLI/* ./
-rm -r BadAppleCLI/
+rm -rf BadAppleCLI/
 ```
 
 4. Create the archive `frames.tar.gz` by executing the following command in the same directory where your other resources are stored:
