@@ -7,7 +7,7 @@
 
 ## Usage Instructions
 
-This script is available at https://revecoa.skydinse.net/, so the easiest way to run is in online mode:
+This script is available at https://revecoa.skydinse.net/, so the easiest way to run it in online mode in:
 ```bash
 bash <(curl -sL https://revecoa.skydinse.net/badapple.sh)
 ```
@@ -73,13 +73,13 @@ URL="https://example.org/badapple"
 sed -i "s|^URL_RESOURCES=.*|URL_RESOURCES=\"$URL\"|g" ./run.sh
 ```
 
-6. Your script should now be available by running the following command:
+6. Your script should now be accessible by entering the following command:
 ```bash
 bash <(curl -sL https://example.org/badapple/run.sh) --help
 ```
+ You may also move or link your script to a different location on your web server. You can achieve this by actually moving the script file, creating a custom location in Nginx, or other methods.
 
 ---
-
 
 ## Credits
 
