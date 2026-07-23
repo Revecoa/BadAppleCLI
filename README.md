@@ -1,8 +1,5 @@
 # BadAppleCLI
 
-![Design sem nome](https://github.com/user-attachments/assets/329e599e-2284-4d9d-8936-3c166f85334d)
-*Original video from [FelipeFMA/BadAppleBash](https://github.com/FelipeFMA/BadAppleBash)*
-
 **This project reproduces the ["Bad Apple!!"](https://youtu.be/9lNZ_Rnr7Jc?si=ROgXrVvdx13oKPM4) video using Bash script, with all graphics rendered in ASCII art.**
 
 ## Usage Instructions
@@ -15,6 +12,9 @@ Or directly via GitHub:
 ```bash
 bash <(curl -sL https://raw.githubusercontent.com/Revecoa/BadAppleCLI/refs/heads/main/run.sh)
 ```
+
+![Design sem nome](https://github.com/user-attachments/assets/329e599e-2284-4d9d-8936-3c166f85334d)
+*Original video from [FelipeFMA/BadAppleBash](https://github.com/FelipeFMA/BadAppleBash)*
 
 ---
 
