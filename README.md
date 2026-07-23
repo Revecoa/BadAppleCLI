@@ -1,6 +1,7 @@
 # BadAppleCLI
 
 **This project reproduces the ["Bad Apple!!"](https://youtu.be/9lNZ_Rnr7Jc?si=ROgXrVvdx13oKPM4) video using Bash script, with all graphics rendered in ASCII art.**
+Bash 5.0+ is required!
 
 ## Usage Instructions
 
@@ -14,11 +15,26 @@ bash <(curl -sL https://raw.githubusercontent.com/Revecoa/BadAppleCLI/refs/heads
 ```
 
 ![Design sem nome](https://github.com/user-attachments/assets/329e599e-2284-4d9d-8936-3c166f85334d)
-*Original video from [FelipeFMA/BadAppleBash](https://github.com/FelipeFMA/BadAppleBash)*
+*Original video from [FelipeFMA/BadAppleBash](https://github.com/FelipeFMA/BadAppleBash).*
 
 ---
 
-## Manual Usage
+## Available Arguments
+
+```bash
+$ bash <(curl -sL https://revecoa.skydinse.net/badapple.sh) --help
+
+Usage: command [options]
+  -h, --help              Display this help message
+  -o, --offline           Play in offline mode (only available if run locally)
+  -s, --skip              Skip connection checks
+  -m, --mpv [true|false]  Toggles playing audio using mpv
+  -u, --url (url)         Use custom base URL for online mode
+```
+
+---
+
+## Manual Installation / Offline Mode
 
 If you want to load the entire script and resources locally, follow these steps:
 
