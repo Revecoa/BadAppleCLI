@@ -32,7 +32,7 @@ usage() {
 OFFLINE=false
 SKIP_CHECK=false
 USE_MPV=""
-FRAME_TIME=0.033333
+FRAME_TIME=33333
 
 
 badapple() {
@@ -185,8 +185,18 @@ badapple() {
     frames=()
     while IFS= read -r f; do frames+=("$f"); done < <(ls -v "$FRAMES_DIR"/out*.jpg.txt)
 
-    # Playback loop setup using high-precision built-in Bash epoch variables
-    start_time=$EPOCHREALTIME
+    # Helper function to get current timestamp in microseconds as an integer
+    get_epoch_us() {
+        local ts=$EPOCHREALTIME
+        local sec=${ts%.*}
+        local usec=${ts#*.}
+        
+        printf -v usec "%-6s" "$usec"
+        usec=${usec// /0}
+        echo "$(( 10#$sec * 1000000 + 10#$usec ))"
+    }
+
+    start_time_us=$(get_epoch_us)
     frame_idx=0
     total_frames=${#frames[@]}
 
@@ -194,24 +204,27 @@ badapple() {
 
     while [ $frame_idx -lt $total_frames ]; do
         tput cup 0 0
-        # Print frames
+        # Print frame
         printf "%s" "$(<"${frames[$frame_idx]}")"
         
         ((frame_idx++))
         
-        # Calculate absolute target time for the next frame relative to the video start timestamp
-        next_frame_target=$(echo "$start_time + ($frame_idx * $FRAME_TIME)" | bc)
-        current_time=$EPOCHREALTIME
+        # Calculate absolute target time in microseconds for the next frame
+        (( next_frame_target_us = start_time_us + (frame_idx * FRAME_TIME) ))
+        current_time_us=$(get_epoch_us)
         
-        sleep_time=$(echo "$next_frame_target - $current_time" | bc)
+        (( sleep_us = next_frame_target_us - current_time_us ))
         
-        # Only sleep if the execution is ahead of schedule. If lagging behind, drop/skip sleeping to catch up
-        if (( $(echo "$sleep_time > 0" | bc) )); then
+        # Only sleep if execution is ahead of schedule
+        if (( sleep_us > 0 )); then
+            # Convert microseconds back to seconds format (e.g. 12345 -> 0.012345) for GNU sleep
+            (( sleep_sec = sleep_us / 1000000 ))
+            (( sleep_part = sleep_us % 1000000 ))
+            printf -v sleep_time "%d.%06d" "$sleep_sec" "$sleep_part"
+            
             sleep "$sleep_time"
         fi
     done
-
-
 
     # Restore cursor when done
     tput cnorm
