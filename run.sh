@@ -6,7 +6,7 @@
 
 # Description: Plays ASCII animation of Bad Apple!! synced with optional audio
 
-# As of 22 July 2026, an online version is available on:
+# As of 23 July 2026, an online version is available on:
 # https://revecoa.skydinse.net/badapple.sh
 # Usage: bash <(curl -sL https://revecoa.skydinse.net/badapple.sh) [options]
 
@@ -32,8 +32,7 @@ usage() {
 OFFLINE=false
 SKIP_CHECK=false
 USE_MPV=""
-TARGET_FPS=24
-FRAME_TIME=0.024 # 1 / 24 or 41.66ms per frame
+FRAME_TIME=0.033333
 
 
 badapple() {
@@ -181,26 +180,37 @@ badapple() {
     tput civis 2>/dev/null
 
 
-    # Play animation with prescision-timing
-    # Loop through the files locally using natural numeric sorting
-    ls -v "$FRAMES_DIR"/out*.jpg.txt | while read -r file; do
-        START_TIME=$(date +%s%N)
-        
+    # Load all frame paths into a Bash array to eliminate disk I/O bottlenecks during playback
+    echo "Loading frames into memory..."
+    frames=()
+    while IFS= read -r f; do frames+=("$f"); done < <(ls -v "$FRAMES_DIR"/out*.jpg.txt)
+
+    # Playback loop setup using high-precision built-in Bash epoch variables
+    start_time=$EPOCHREALTIME
+    frame_idx=0
+    total_frames=${#frames[@]}
+
+    tput clear
+
+    while [ $frame_idx -lt $total_frames ]; do
         tput cup 0 0
-        cat "$file"
+        # Print frames
+        printf "%s" "$(<"${frames[$frame_idx]}")"
         
-        # Calculate exact execution time of the cat command to adjust sleep time dynamically
-        END_TIME=$(date +%s%N)
-        ELAPSED=$(echo "scale=6; ($END_TIME - $START_TIME) / 1000000000" | bc 2>/dev/null || echo "0")
+        ((frame_idx++))
         
-        # Adjust remaining sleep time to match exact frame duration
-        SLEEP_TIME=$(echo "scale=6; $FRAME_TIME - $ELAPSED" | bc 2>/dev/null || echo "0.024")
+        # Calculate absolute target time for the next frame relative to the video start timestamp
+        next_frame_target=$(echo "$start_time + ($frame_idx * $FRAME_TIME)" | bc)
+        current_time=$EPOCHREALTIME
         
-        # Only sleep if we aren't already running behind
-        if (( $(echo "$SLEEP_TIME > 0" | bc 2>/dev/null || echo "1") )); then
-            sleep "$SLEEP_TIME"
+        sleep_time=$(echo "$next_frame_target - $current_time" | bc)
+        
+        # Only sleep if the execution is ahead of schedule. If lagging behind, drop/skip sleeping to catch up
+        if (( $(echo "$sleep_time > 0" | bc) )); then
+            sleep "$sleep_time"
         fi
     done
+
 
 
     # Restore cursor when done
